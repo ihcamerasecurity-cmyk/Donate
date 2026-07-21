@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f9d58">
+<title>Donate - غریبوں اور یتیموں کی مدد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#0f9d58;
+    --primary-dark:#0b7a44;
+    --accent:#ffb703;
+    --bg:#f4f8f6;
+    --card:#ffffff;
+    --text:#1e2b26;
+    --muted:#6b7a74;
+    --radius:16px;
+    --shadow:0 6px 20px rgba(15,157,88,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Poppins','Noto Nastaliq Urdu',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+    padding-bottom:calc(40px + env(safe-area-inset-bottom));
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--primary);color:#fff;}
+  .urdu{font-family:'Noto Nastaliq Urdu',serif;font-size:1.15rem;line-height:2.4;}
+
+  /* Header */
+  header{
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    color:#fff;
+    padding:calc(24px + env(safe-area-inset-top)) 20px 34px;
+    text-align:center;
+    border-radius:0 0 28px 28px;
+    box-shadow:var(--shadow);
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  header h1{font-size:1.9rem;font-weight:700;letter-spacing:1px;}
+  header p{margin-top:6px;opacity:0.95;font-size:0.9rem;}
+  header .heart{font-size:1.5rem;display:inline-block;animation:pulse 1.6s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+
+  .container{max-width:520px;margin:0 auto;padding:0 14px;}
+
+  /* Slider */
+  .slider-wrap{
+    margin-top:-18px;
+    overflow:hidden;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    background:#000;
+  }
+  .slider-track{
+    display:flex;
+    width:max-content;
+    animation:slideLeft 45s linear infinite;
+  }
+  .slide{
+    position:relative;
+    width:280px;
+    height:180px;
+    flex-shrink:0;
+  }
+  .slide img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.75);}
+  .slide .cap{
+    position:absolute;bottom:0;left:0;right:0;
+    background:linear-gradient(transparent,rgba(0,0,0,0.75));
+    color:#fff;padding:10px 12px;font-size:0.95rem;font-weight:600;text-align:center;
+  }
+  @keyframes slideLeft{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+
+  /* Cards */
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:20px;
+    margin-top:18px;
+    transition:transform 0.2s ease;
+  }
+  .card h2{
+    color:var(--primary-dark);
+    font-size:1.12rem;
+    margin-bottom:14px;
+    display:flex;align-items:center;gap:8px;
+  }
+
+  /* Accounts */
+  .account{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#f0faf5;
+    border:1px solid #d7efe1;
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:12px;
+    direction:ltr;
+    text-align:left;
+  }
+  .account .info b{display:block;color:var(--primary-dark);font-size:1rem;}
+  .account .info span{color:var(--muted);font-size:0.85rem;}
+  .account .num{font-size:1.05rem;font-weight:700;letter-spacing:0.5px;margin-top:4px;}
+  .copy-btn{
+    background:var(--primary);
+    color:#fff;border:none;border-radius:8px;
+    padding:10px 16px;font-size:0.85rem;cursor:pointer;
+    white-space:nowrap;min-height:40px;
+    transition:transform 0.12s ease, background 0.2s ease;
+  }
+  .copy-btn:active{transform:scale(0.94);background:var(--primary-dark);}
+
+  /* Message */
+  .message p{margin-bottom:10px;}
+
+  /* Upload form */
+  .form-group{margin-bottom:14px;}
+  .form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:0.92rem;}
+  .form-group input[type=text], .form-group input[type=number]{
+    width:100%;padding:13px 14px;border:1px solid #d8e2dd;border-radius:10px;
+    font-size:0.95rem;direction:rtl;min-height:46px;
+    transition:border-color 0.2s ease;
+  }
+  .form-group input:focus{outline:none;border-color:var(--primary);}
+  .upload-box{
+    border:2px dashed var(--primary);
+    border-radius:12px;
+    padding:20px;
+    text-align:center;
+    cursor:pointer;
+    background:#f7fdfa;
+    transition:background 0.2s ease;
+  }
+  .upload-box:active{background:#eefaf3;}
+  .upload-box img{max-width:100%;max-height:160px;border-radius:8px;margin-top:10px;}
+  #fileInput{display:none;}
+  .submit-btn{
+    width:100%;
+    background:var(--accent);
+    color:#3a2a00;
+    border:none;padding:15px;border-radius:12px;
+    font-size:1rem;font-weight:700;cursor:pointer;margin-top:6px;
+    min-height:50px;
+    transition:transform 0.12s ease;
+  }
+  .submit-btn:active{transform:scale(0.97);}
+  .submit-btn:disabled{opacity:0.6;cursor:not-allowed;}
+  .status-msg{margin-top:10px;font-size:0.9rem;text-align:center;}
+  .status-msg.ok{color:var(--primary-dark);}
+  .status-msg.err{color:#c0392b;}
+
+  /* Total */
+  .total-box{
+    text-align:center;
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    color:#fff;
+    border-radius:var(--radius);
+    padding:20px;
+    margin-top:18px;
+    box-shadow:var(--shadow);
+  }
+  .total-box .amount{font-size:2.1rem;font-weight:700;margin-top:4px;}
+
+  /* Donor list */
+  .donor{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    background:#f9fbfa;
+    border:1px solid #e5ede9;
+    border-radius:12px;
+    padding:10px;
+    margin-bottom:10px;
+  }
+  .donor img{width:58px;height:58px;border-radius:10px;object-fit:cover;flex-shrink:0;}
+  .donor .d-info{flex:1;}
+  .donor .d-info b{display:block;font-size:0.95rem;}
+  .donor .d-info span{color:var(--primary-dark);font-weight:700;font-size:0.9rem;}
+  .donor .d-info small{color:var(--muted);}
+  .empty-msg{color:var(--muted);text-align:center;padding:12px;font-size:0.9rem;}
+
+  /* Proof gallery */
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+  .gallery figure{border-radius:12px;overflow:hidden;background:#eee;}
+  .gallery img{width:100%;height:120px;object-fit:cover;display:block;}
+  .gallery figcaption{
+    font-size:0.8rem;text-align:center;padding:6px;color:var(--muted);background:#fff;
+  }
+
+  /* Footer */
+  footer{
+    margin-top:26px;
+    text-align:center;
+    padding:24px 16px;
+    color:var(--muted);
+    font-size:0.9rem;
+  }
+  footer .foot-card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:20px;
+  }
+  footer b{color:var(--text);font-size:1.05rem;display:block;margin-bottom:4px;}
+  footer a{color:var(--primary-dark);text-decoration:none;font-weight:600;}
+  footer .addr{margin-top:6px;}
+  footer .thanks{margin-top:12px;font-style:italic;}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="heart">🤲</span>
+  <h1>Donate</h1>
+  <p>غریبوں اور یتیموں کی مدد کے لیے ایک قدم بڑھائیں</p>
+</header>
+
+<div class="container">
+
+  <!-- Sliding image gallery -->
+  <div class="slider-wrap">
+    <div class="slider-track" id="sliderTrack">
+      <!-- Slides are duplicated once in JS for a seamless loop -->
+    </div>
+  </div>
+
+  <!-- Bank / Payment Accounts -->
+  <div class="card">
+    <h2>💳 عطیہ بھیجنے کے اکاؤنٹس</h2>
+
+    <div class="account">
+      <div class="info">
+        <b>JazzCash</b>
+        <span>Muhammad Naeem</span>
+        <div class="num" id="jazzNum">0325-7436319</div>
+      </div>
+      <button class="copy-btn" onclick="copyNum('03257436319','jazzBtn')" id="jazzBtn">Copy</button>
+    </div>
+
+    <div class="account">
+      <div class="info">
+        <b>Meezan Bank</b>
+        <span>Muhammad Naeem</span>
+        <div class="num" id="meezanNum">0030-0111855522</div>
+      </div>
+      <button class="copy-btn" onclick="copyNum('00300111855522','meezanBtn')" id="meezanBtn">Copy</button>
+    </div>
+  </div>
+
+  <!-- Urdu appeal message -->
+  <div class="card message urdu">
+    <h2 style="font-family:'Poppins',sans-serif;">📢 اپیل</h2>
+    <p>
+      معاشرے میں بہت سے غریب اور یتیم بچے ایسے ہیں جنہیں ہماری مدد کی اشد ضرورت ہے۔
+      آپ کی تھوڑی سی مدد کسی کے چہرے پر مسکراہٹ لا سکتی ہے اور کسی گھر کا چولہا جلا سکتی ہے۔
+    </p>
+    <p>
+      اپنی مرضی سے جتنی رقم چاہیں، اوپر دیے گئے JazzCash یا Meezan Bank اکاؤنٹ میں بھیج دیں۔
+      اللہ آپ کے مال میں برکت عطا فرمائے۔ آمین۔
+    </p>
+  </div>
+
+  <!-- Donation proof upload -->
+  <div class="card">
+    <h2>📤 عطیہ کی رسید جمع کروائیں</h2>
+    <p class="urdu" style="font-size:1rem;margin-bottom:14px;">
+      پیسے بھیجنے کے بعد اپنا نام، رقم اور اسکرین شاٹ نیچے جمع کروائیں۔
+    </p>
+
+    <div class="form-group">
+      <label>👤 اپنا نام</label>
+      <input type="text" id="donorName" placeholder="مثال: احمد علی">
+    </div>
+
+    <div class="form-group">
+      <label>💰 رقم (Rs.)</label>
+      <input type="number" id="donorAmount" placeholder="مثال: 500">
+    </div>
+
+    <div class="form-group">
+      <label>🖼️ پیمنٹ اسکرین شاٹ</label>
+      <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+        <div id="uploadLabel">تصویر منتخب کرنے کے لیے یہاں کلک کریں</div>
+        <img id="previewImg" style="display:none;">
+      </div>
+      <input type="file" id="fileInput" accept="image/*">
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitDonation()">جمع کروائیں</button>
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
+
+  <!-- Total donated -->
+  <div class="total-box">
+    <div>💚 اب تک کل عطیات</div>
+    <div class="amount">Rs. <span id="totalAmount">0</span></div>
+  </div>
+
+  <!-- Donor list -->
+  <div class="card">
+    <h2>🙌 عطیہ دہندگان</h2>
+    <div id="donorList">
+      <div class="empty-msg">ابھی تک کوئی عطیہ درج نہیں ہوا۔ پہلا عطیہ دینے والے آپ ہو سکتے ہیں!</div>
+    </div>
+  </div>
+
+  <!-- Proof of distribution -->
+  <div class="card">
+    <h2>✅ ثبوت - رقم کہاں استعمال ہوئی</h2>
+    <p class="urdu" style="font-size:0.95rem;margin-bottom:12px;">
+      یہاں وہ تصاویر ہیں جب آپ کا عطیہ ضرورت مندوں تک پہنچایا گیا۔
+    </p>
+    <div class="gallery" id="proofGallery">
+      <div class="empty-msg">ابھی تک کوئی تصویر شامل نہیں کی گئی۔</div>
+    </div>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=400&q=60" alt="proof">
+        <figcaption>یتیم بچوں کی مدد</figcaption>
+      </figure>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-card">
+    <b>Muhammad Naeem</b>
+    <a href="tel:+923257436319">📞 0325-7436319</a><br>
+    <a href="https://wa.me/923257436319" target="_blank">💬 WhatsApp</a>
+    <div class="addr urdu">لاہور، تھوکر نیاز بیگ</div>
+    <div class="thanks urdu">آپ کی مدد کا شکریہ 🙏</div>
+  </div>
+</footer>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+/* ---------- Firebase setup ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyDUg33dZk0hsqTMK2l2r32QCHeOZB93w4w",
+  databaseURL: "https://website-create-ec499-default-rtdb.firebaseio.com",
+  projectId: "website-create-ec499",
+  storageBucket: "website-create-ec499.firebasestorage.app"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const donationsRef = db.ref("donations");
+
+/* ---------- Cloudinary setup ---------- */
+const CLOUD_NAME = "sjt8mlws";
+const UPLOAD_PRESET = "Naeem786";
+
+let selectedFile = null;
+
+document.getElementById('fileInput').addEventListener('change', function () {
+  selectedFile = this.files[0];
+  if (!selectedFile) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('previewImg');
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById('uploadLabel').textContent = selectedFile.name;
+  };
+  reader.readAsDataURL(selectedFile);
+});
+
+async function uploadToCloudinary(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', UPLOAD_PRESET);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+    method: 'POST',
+    body: formData
+  });
+  if (!res.ok) throw new Error('Upload failed');
+  const result = await res.json();
+  return result.secure_url;
+}
+
+function copyNum(num, btnId) {
+  navigator.clipboard.writeText(num).then(() => {
+    const btn = document.getElementById(btnId);
+    const old = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => btn.textContent = old, 1500);
+  });
+}
+
+async function submitDonation() {
+  const name = document.getElementById('donorName').value.trim();
+  const amount = parseFloat(document.getElementById('donorAmount').value);
+  const statusEl = document.getElementById('statusMsg');
+  const btn = document.getElementById('submitBtn');
+
+  if (!name) { showStatus('براہ کرم اپنا نام درج کریں۔', false); return; }
+  if (!amount || amount <= 0) { showStatus('براہ کرم درست رقم درج کریں۔', false); return; }
+  if (!selectedFile) { showStatus('براہ کرم اسکرین شاٹ منتخب کریں۔', false); return; }
+
+  btn.disabled = true;
+  showStatus('جمع ہو رہا ہے، براہ کرم انتظار کریں...', true);
+
+  try {
+    const url = await uploadToCloudinary(selectedFile);
+    await donationsRef.push({
+      name: name,
+      amount: amount,
+      screenshot: url,
+      timestamp: Date.now()
+    });
+    showStatus('شکریہ! آپ کا عطیہ درج ہو گیا۔ ✅', true);
+    document.getElementById('donorName').value = '';
+    document.getElementById('donorAmount').value = '';
+    document.getElementById('previewImg').style.display = 'none';
+    document.getElementById('uploadLabel').textContent = 'تصویر منتخب کرنے کے لیے یہاں کلک کریں';
+    document.getElementById('fileInput').value = '';
+    selectedFile = null;
+  } catch (err) {
+    console.error(err);
+    showStatus('کچھ غلط ہو گیا، دوبارہ کوشش کریں۔', false);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function showStatus(msg, ok) {
+  const el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.className = 'status-msg ' + (ok ? 'ok' : 'err');
+}
+
+/* ---------- Live proof gallery (managed from admin panel) ---------- */
+db.ref("proofs").on('value', snapshot => {
+  const galleryEl = document.getElementById('proofGallery');
+  const data = snapshot.val();
+  if (!data) {
+    galleryEl.innerHTML = '<div class="empty-msg">ابھی تک کوئی تصویر شامل نہیں کی گئی۔</div>';
+    return;
+  }
+  const entries = Object.values(data).sort((a, b) => b.timestamp - a.timestamp);
+  galleryEl.innerHTML = entries.map(p => `
+    <figure>
+      <img src="${p.url}" alt="proof">
+      <figcaption>${escapeHtml(p.caption || '')}</figcaption>
+    </figure>`).join('');
+});
+
+/* ---------- Live donor list + total ---------- */
+donationsRef.on('value', snapshot => {
+  const listEl = document.getElementById('donorList');
+  const totalEl = document.getElementById('totalAmount');
+  const data = snapshot.val();
+
+  if (!data) {
+    listEl.innerHTML = '<div class="empty-msg">ابھی تک کوئی عطیہ درج نہیں ہوا۔ پہلا عطیہ دینے والے آپ ہو سکتے ہیں!</div>';
+    totalEl.textContent = '0';
+    return;
+  }
+
+  const entries = Object.values(data).sort((a, b) => b.timestamp - a.timestamp);
+  let total = 0;
+  listEl.innerHTML = entries.map(d => {
+    total += Number(d.amount) || 0;
+    const date = new Date(d.timestamp).toLocaleDateString('en-GB');
+    return `
+      <div class="donor">
+        <img src="${d.screenshot}" alt="screenshot">
+        <div class="d-info">
+          <b>${escapeHtml(d.name)}</b>
+          <span>Rs. ${Number(d.amount).toLocaleString()}</span>
+          <small>${date}</small>
+        </div>
+      </div>`;
+  }).join('');
+  totalEl.textContent = total.toLocaleString();
+});
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+/* ---------- Needy-people slider (replace images/titles with your own real photos) ---------- */
+const slides = [
+  { img: "https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=500&q=60", title: "یتیم بچوں کا مستقبل روشن بنائیں" },
+  { img: "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?w=500&q=60", title: "غریب گھرانوں کی مدد کریں" },
+  { img: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=500&q=60", title: "بھوکوں کو کھانا کھلائیں" },
+  { img: "https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=500&q=60&sat=-50", title: "بے سہاروں کا سہارا بنیں" },
+  { img: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?w=500&q=60", title: "آپ کا عطیہ کسی کی زندگی بدل سکتا ہے" }
+];
+const track = document.getElementById('sliderTrack');
+function renderSlides(list) {
+  return list.map(s => `
+    <div class="slide">
+      <img src="${s.img}" alt="${s.title}">
+      <div class="cap urdu">${s.title}</div>
+    </div>`).join('');
+}
+// duplicate the list once so the CSS animation (translateX -50%) loops seamlessly
+track.innerHTML = renderSlides(slides) + renderSlides(slides);
+</script>
+
+</body>
+</html>
